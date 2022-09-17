@@ -9,6 +9,7 @@ const verifyLoginInfo = async (ctx, next) => {
   const loginInfo = ctx.request.body
 
   const result = await userService.login(loginInfo)
+  console.log(loginInfo)
   console.log("verifyLoginInfo", result);
 
   if (result.length === 0) {
