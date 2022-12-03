@@ -39,10 +39,11 @@ class ProductService {
         WHERE name LIKE "%${keyWords}%"
         ${initialAmount != -1 ? `AND P.initialAmount > ${initialAmount}` : ``}
         ${deadLine != -1 ? `AND P.deadLine = ${deadLine}` : ``}
-        AND p.riskRating = ?
+        ${riskRating != "" ? `AND P.riskRating = ${riskRating}` : ``}
         ${state == 0 ? `` : state == 1 ? `ORDER BY p.${selectType} ASC ` : `ORDER BY p.${selectType} DESC `}
         LIMIT ?,?`
-      const result = await connection.execute(statement, [riskRating, (curPage === 0 ? 0 : (curPage - 1) * pageSize), pageSize])
+      console.log("获取产品列表,serach", search, "statement", statement);
+      const result = await connection.execute(statement, [(curPage === 0 ? 0 : (curPage - 1) * pageSize), pageSize])
 
       return result[0]
     } catch (error) {
@@ -68,8 +69,8 @@ class ProductService {
         WHERE name LIKE "%${keyWords}%"
         ${initialAmount != -1 ? `AND P.initialAmount > ${initialAmount}` : ``}
         ${deadLine != -1 ? `AND P.deadLine = ${deadLine}` : ``}
-        AND p.riskRating = ?`
-      const result = await connection.execute(statement, [riskRating])
+        ${riskRating != "" ? `AND P.riskRating = ${riskRating}` : ``}`
+      const result = await connection.execute(statement, [])
 
       return result[0]
     } catch (error) {

@@ -10,8 +10,8 @@ const {
 
 const infoRouter = new Router()
 
-infoRouter.post("/announcement/getAllAnnouncements", verifyAuth, getAllAnnouncements)
-infoRouter.get("/frequently-aq/getAllAQ", verifyAuth, getAllAQ)
-infoRouter.post("/indeximages/loadAllImages", verifyAuth, loadAllImages)
+infoRouter.post("/announcement/getAllAnnouncements", getAllAnnouncements)
+infoRouter.get("/frequently-aq/getAllAQ", getAllAQ)
+infoRouter.post("/indeximages/loadAllImages", loadAllImages)
 
 module.exports = infoRouter

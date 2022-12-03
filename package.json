@@ -12,7 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "@alicloud/pop-core": "^1.7.12",
+    "cos-nodejs-sdk-v5": "^2.11.16",
     "dotenv": "^16.0.1",
+    "js-md5": "^0.7.3",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",

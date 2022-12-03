@@ -29,8 +29,8 @@ const errorHandler = (error, ctx) => {
       message = "NOT FOUND";
   }
 
-  ctx.status = status;
-  ctx.body = message;
+  ctx.status = 200;
+  ctx.body = {status, message};
 }
 
 module.exports = errorHandler;

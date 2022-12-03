@@ -38,7 +38,7 @@ class ProductController {
 
       ctx.body = {
         status: 200,
-        message: response
+        message: response[0]
       }
     } catch (error) {
       console.log(error)

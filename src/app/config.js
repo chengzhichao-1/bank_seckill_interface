@@ -14,7 +14,13 @@ module.exports = {
   MYSQL_PORT,
   MYSQL_DATABASE,
   MYSQL_USER,
-  MYSQL_PASSWORD
+  MYSQL_PASSWORD,
+
+  SecretId,
+  SecretKey,
+  Bucket,
+  Region,
+  prefix
 } = process.env
 
 module.exports.PRIVATE_KEY = PRIVATE_KEY

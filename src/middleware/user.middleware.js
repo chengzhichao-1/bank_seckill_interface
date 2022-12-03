@@ -27,13 +27,14 @@ const verifyRegisterInfo = async (ctx, next) => {
     customerPhoneNumber,
     code
   } = ctx.request.body
+  console.log(ctx.request.body)
   try {
     // 1. 判断用户填入信息是否合法
     // 前端已经判断
 
     // 2. 查询手机号是否被注册过
     let result = await userService.getPhone(customerPhoneNumber)
-    // console.log("查询手机号是否被注册过:", result);
+    console.log("查询手机号是否被注册过:", result);
     if (result.length !== 0) {
       const error = new Error(errorType.PHONE_ALREADY_EXISTS)
       return ctx.app.emit("error", error, ctx)
@@ -46,7 +47,33 @@ const verifyRegisterInfo = async (ctx, next) => {
       curTime: new Date().getTime()
     }
     result = await userService.checkCode(message)
-    // console.log("查看验证码是否正确或过期:", result);
+    console.log("查看验证码是否正确或过期:", result);
+    if (result.length === 0) {
+      const error = new Error(errorType.CODE_IS_EXPIRED_OR_INCORRECT)
+      return ctx.app.emit("error", error, ctx)
+    }
+
+    await next()
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+const verifyCode = async (ctx, next) => {
+  const {
+    customerPhoneNumber,
+    code
+  } = ctx.request.body
+  console.log(ctx.request.body)
+  try {
+    // 查看验证码是否正确或过期
+    const message = {
+      customerPhoneNumber,
+      code,
+      curTime: new Date().getTime()
+    }
+    result = await userService.checkCode(message)
+    console.log("查看验证码是否正确或过期:", result);
     if (result.length === 0) {
       const error = new Error(errorType.CODE_IS_EXPIRED_OR_INCORRECT)
       return ctx.app.emit("error", error, ctx)
@@ -78,6 +105,7 @@ const verifyAuth = async (ctx, next) => {
     console.log("JWT payload:", result);
     await next();
   } catch (err) {
+    console.log("token过期了");
     const error = new Error(errorType.AUTHORIZATION_EXPIRED_OR_INCORRECT);
     ctx.app.emit('error', error, ctx);
   }
@@ -86,5 +114,6 @@ const verifyAuth = async (ctx, next) => {
 module.exports = {
   verifyLoginInfo,
   verifyRegisterInfo,
-  verifyAuth
+  verifyAuth,
+  verifyCode
 }

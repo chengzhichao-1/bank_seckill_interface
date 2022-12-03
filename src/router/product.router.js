@@ -12,8 +12,8 @@ const productRouter = new Router({
 })
 
 productRouter.post("/getFutureProduct", getFutureProduct)
-productRouter.post("/getProductDetail/:activityID", verifyAuth, getProductDetail)
-productRouter.post("/getProductList", verifyAuth, getProductList)
-productRouter.post("/getProductInActivity", verifyAuth, getProductInActivity)
+productRouter.post("/getProductDetail/:activityID", getProductDetail)
+productRouter.post("/getProductList", getProductList)
+productRouter.post("/getProductInActivity", getProductInActivity)
 
 module.exports = productRouter
