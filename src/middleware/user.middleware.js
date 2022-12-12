@@ -92,7 +92,8 @@ const verifyAuth = async (ctx, next) => {
 
   if (!authorization) {
     const error = new Error(errorType.NO_AUTHORIZATION)
-    return ctx.app.emit("error", error, ctx)
+    ctx.app.emit("error", error, ctx)
+    return
   }
   const token = authorization.replace('Bearer ', '');
 
@@ -103,12 +104,13 @@ const verifyAuth = async (ctx, next) => {
       algorithms: ["RS256"]
     })
     console.log("JWT payload:", result);
-    await next();
   } catch (err) {
-    console.log("token过期了");
+    console.log("token过期 或 下一次中间件出错");
+    console.log(error);
     const error = new Error(errorType.AUTHORIZATION_EXPIRED_OR_INCORRECT);
     ctx.app.emit('error', error, ctx);
   }
+  await next();
 }
 
 module.exports = {

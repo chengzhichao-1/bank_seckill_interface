@@ -159,12 +159,12 @@ class InfoManageController {
   async uploadImage(ctx) {
     try {
       const { base64Code, picName, picType } = ctx.request.body
-      const dataBuffer = Buffer.from(base64Code, "base64")
+      const dataBuffer = Buffer.from(base64Code, "base64") // base64 -> 二进制Buffer
       const data = await cos.putObject({
-        Bucket,
-        Region,
-        Key: prefix + new Date().getTime() + `.${picType}`,
-        Body: dataBuffer,
+        Bucket, // 存储桶名称
+        Region, // 存储桶所在地域
+        Key: prefix + new Date().getTime() + `.${picType}`, // 可以理解为图片存储的路径+名称(唯一)
+        Body: dataBuffer, // 上传文件的内容，可以为 FileStream、字符串、Buffer, 我们这里接收二进制Buffer
         onProgress: function (progressData) {
           console.log(progressData)
         }
@@ -172,7 +172,7 @@ class InfoManageController {
 
       const imageUrl = `https://${data.Location}`
       console.log("上传图片的url为", imageUrl)
-      await infoManageService.uploadImage(imageUrl)
+      await infoManageService.uploadImage(imageUrl) // 把图片url插入到数据库中
       ctx.body = {
         status: 200,
         message: imageUrl

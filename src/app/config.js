@@ -20,7 +20,10 @@ module.exports = {
   SecretKey,
   Bucket,
   Region,
-  prefix
+  prefix,
+
+  MQ_CONNECTION,
+  CHANNEL_NAME
 } = process.env
 
 module.exports.PRIVATE_KEY = PRIVATE_KEY

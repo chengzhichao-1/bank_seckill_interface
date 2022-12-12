@@ -1,9 +1,10 @@
 const Router = require("koa-router")
-const {
+const OrderController = {
   getPath,
   getSeckillResult,
   orderSecKill,
-  getMySecKill
+  getMySecKill,
+  bankPay
 } = require("../controller/order.controller")
 const {
   verifyAuth
@@ -13,9 +14,11 @@ const orderRouter = new Router({
   prefix: "/order"
 })
 
-orderRouter.post("/getPath", verifyAuth, getPath)
-orderRouter.get("/getSeckillResult", verifyAuth, getSeckillResult)
-orderRouter.post("/:path/orderSecKill", verifyAuth, orderSecKill)
-orderRouter.post("/getMySecKill", verifyAuth, getMySecKill)
+orderRouter.post("/getPath", verifyAuth, getPath.bind(OrderController))
+// orderRouter.post("/getPath", verifyAuth, OrderController.getPath.bind(OrderController))
+orderRouter.post("/getSeckillResult", verifyAuth, getSeckillResult.bind(OrderController))
+orderRouter.post("/:path/orderSecKill", verifyAuth, orderSecKill.bind(OrderController))
+orderRouter.post("/getMySecKill", verifyAuth, getMySecKill.bind(OrderController))
+orderRouter.post("/bankPay", verifyAuth, bankPay)
 
 module.exports = orderRouter
